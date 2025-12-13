@@ -1,0 +1,3 @@
+[submodule "comands"]
+	path = comands
+	url = https://github.com/z0374/BOT-Catalog01-Comands.git
