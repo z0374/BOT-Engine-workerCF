@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="antialiased">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Política de Uso e Processamento de Dados do Catálogo Virtual</title>
+    <!-- Carrega o Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Configuração do Tailwind para usar a classe 'dark' no elemento HTML
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    // Configuração para cores neutras no modo claro
+                    colors: {
+                        'primary-slate': '#334155', 
+                    }
+                },
+            }
+        }
+    </script>
+    <style>
+        /* Configuração de fonte padrão e cores neutras de base (Modo Claro) */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #1f2937; /* Texto cinza escuro */
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* Estilo para a tabela */
+        .policy-table th, .policy-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb; /* gray-200 */
+        }
+        .policy-table th {
+            background-color: #f1f5f9; /* slate-100 */
+            font-weight: 700;
+            color: #334155; /* slate-700 */
+        }
+
+        /* Estilo da seção principal */
+        .policy-section {
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            background-color: white;
+            border-radius: 0.75rem;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        /* Estilo para listas */
+        .policy-list {
+            list-style: disc;
+            padding-left: 1.5rem;
+        }
+        .policy-list li {
+            margin-bottom: 0.75rem;
+        }
+        
+        /* --- ESTILOS DO MODO ESCURO (DARK MODE) - Cores Estritamente Neutras --- */
+        .dark body {
+            background-color: #121212; /* Fundo muito escuro, quase preto */
+            color: #e5e5e5; /* Texto claro (gray-200) */
+        }
+        .dark .policy-section {
+            background-color: #1e1e1e; /* Seção em cinza escuro */
+            border-color: #333333; /* Borda mais escura */
+            box-shadow: none;
+        }
+        .dark .policy-table th {
+            background-color: #2e2e2e; /* Fundo do cabeçalho da tabela */
+            color: #f5f5f5; /* Texto claro */
+            border-bottom-color: #444444; 
+        }
+        .dark .policy-table td {
+            border-bottom-color: #333333; 
+        }
+        .dark .policy-section.dark-highlight {
+            background-color: #2e2e2e; 
+            border-left-color: #aaaaaa !important; /* Cinza médio para destaque */
+        }
+        /* Ajuste de cor de texto para elementos específicos no modo escuro */
+        .dark .text-slate-800 { color: #f5f5f5; } 
+        .dark .text-slate-700 { color: #e5e5e5; } 
+        .dark .text-slate-600 { color: #bdbdbd; } 
+
+    </style>
+</head>
+<body class="p-4 sm:p-10">
+
+    <div class="max-w-5xl mx-auto">
+        <!-- Título Principal e Botão de Modo Noturno -->
+        <header class="mb-12">
+            <!-- Top Row: Botões de Navegação e Modo Noturno -->
+            <div class="flex justify-end items-center space-x-3 mb-4">
+                <!-- Novo Botão para Voltar ao Index -->
+                <a href="/" 
+                   class="py-2 px-4 rounded-full text-sm font-semibold transition-all duration-300 
+                          bg-gray-100 text-slate-700 hover:bg-gray-200 
+                          dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 shadow-md">
+                    Início
+                </a>
+
+                <!-- Botão de Modo Noturno -->
+                <button id="theme-toggle" onclick="toggleDarkMode()" 
+                        class="py-2 px-4 rounded-full text-sm font-semibold transition-all duration-300 
+                               bg-gray-100 text-slate-700 hover:bg-gray-200 
+                               dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 shadow-md">
+                    🌙 Modo Noturno
+                </button>
+            </div>
+            
+            <!-- Centered Text Content -->
+            <div class="text-center">
+                <h1 class="text-4xl font-extrabold text-slate-800 mb-4 transition-colors duration-300">
+                    Política de Uso e Processamento de Dados do Catálogo Virtual
+                </h1>
+                <p class="text-lg text-slate-600 mb-6 transition-colors duration-300">
+                    Diretrizes claras sobre o tratamento e a gestão das informações pelo Administrador.
+                </p>
+            </div>
+        </header>
+
+        <div class="policy-section">
+            <p class="text-slate-700 leading-relaxed transition-colors duration-300">
+                O presente documento estabelece as diretrizes e procedimentos para o uso, processamento e proteção dos dados geridos pelo Bot de Catálogo Virtual, sob a responsabilidade exclusiva do Administrador.
+            </p>
+            <!-- AUMENTANDO ÊNFASE NA LICENÇA CC-BY-NC COM LINKS DE CRÉDITO -->
+            <div class="mt-6 p-4 rounded-lg bg-yellow-50 dark:bg-gray-700 border-l-4 border-yellow-500 dark:border-gray-500">
+                <p class="text-sm font-semibold text-yellow-800 dark:text-gray-300 transition-colors duration-300">
+                    NOTA DE LICENCIAMENTO E ATRIBUIÇÃO DE CRÉDITO:
+                </p>
+                <p class="text-sm text-yellow-700 dark:text-gray-400 mt-1 transition-colors duration-300">
+                    O código fonte desta página (excluindo o conteúdo específico da política) é explicitamente licenciado sob a <span class="font-bold">Creative Commons Atribuição-NãoComercial (CC BY-NC)</span>. O crédito deve ser dado ao autor, conforme exigido pela licença, utilizando os seguintes links:
+                    <br>
+                    <span class="mt-2 inline-block font-mono bg-yellow-100 dark:bg-gray-600 px-2 py-1 rounded text-xs mr-4">
+                        Portfólio do Autor: <a href="https://victormacedo.dev.br" target="_blank" class="underline hover:text-yellow-900 dark:hover:text-gray-100">victormacedo.dev.br</a>
+                    </span>
+                    <span class="mt-2 inline-block font-mono bg-yellow-100 dark:bg-gray-600 px-2 py-1 rounded text-xs">
+                        GitHub do Projeto: <a href="https://github.com/z0374/templateCatalog01-CC-BY-NC/tree/develop/assets/js/bot" target="_blank" class="underline hover:text-yellow-900 dark:hover:text-gray-100">Link do Repositório</a>
+                    </span>
+                </p>
+            </div>
+        </div>
+
+        <!-- Seção 1: Dados Processados e Finalidade -->
+        <div class="policy-section">
+            <h2 class="text-2xl font-bold text-slate-700 mb-6 flex items-center transition-colors duration-300">
+                <span class="mr-3">1.0</span> Dados Processados e Finalidade
+            </h2>
+            <p class="mb-6 text-slate-700 transition-colors duration-300">O processamento de dados restringe-se às informações essenciais para a **operação e manutenção** do catálogo pelo Administrador:</p>
+
+            <div class="overflow-x-auto rounded-lg border border-gray-300 dark:border-[#444444] transition-colors duration-300">
+                <table class="w-full policy-table text-sm">
+                    <thead>
+                        <tr>
+                            <th class="w-1/4">Categoria de Dado</th>
+                            <th class="w-1/4">Descrição</th>
+                            <th class="w-1/4">Finalidade do Processamento</th>
+                            <th class="w-1/4">Método de Armazenamento</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="font-medium text-slate-800">Identificadores do Administrador</td>
+                            <td class="text-slate-700">`userId` e `chatId` da plataforma Telegram.</td>
+                            <td class="text-slate-700">Autenticação e garantia do fluxo operacional e de gestão do bot.</td>
+                            <td class="text-slate-700">Cloudflare KV</td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium text-slate-800">Dados de Sessão e Estado</td>
+                            <td class="text-slate-700">Registro temporário da interação atual para manutenção da coerência.</td>
+                            <td class="text-slate-700">Manutenção do estado da sessão e das alterações de configuração.</td>
+                            <td class="text-slate-700">Cloudflare KV</td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium text-slate-800">Conteúdo do Catálogo</td>
+                            <td class="text-slate-700">Nomes, Endereços, Horários, Cores e o conteúdo que **o Administrador insere** (Produtos/Serviços).</td>
+                            <td class="text-slate-700">Exibição pública e integral dos itens na interface web (site) do catálogo virtual.</td>
+                            <td class="text-slate-700">Cloudflare D1</td>
+                        </tr>
+                        <tr>
+                            <td class="font-medium text-slate-800">Credenciais de Acesso</td>
+                            <td class="text-slate-700">PINs de Acesso e PUKs (Chaves de Recuperação).</td>
+                            <td class="text-slate-700">Prover acesso seguro e exclusivo à área de gestão do Administrador.</td>
+                            <td class="text-slate-700">Armazenados em formato de **Hash PBKDF2** (Criptografia Irreversível).</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Seção 2: Armazenamento de Mídia -->
+        <div class="policy-section">
+            <h2 class="text-2xl font-bold text-slate-700 mb-6 flex items-center transition-colors duration-300">
+                <span class="mr-3">2.0</span> Armazenamento de Mídia (Imagens e GIFs)
+            </h2>
+            <ul class="policy-list ml-4 text-slate-700 transition-colors duration-300">
+                <li>O sistema processa e armazena exclusivamente mídias de **Imagens e GIFs** fornecidas pelo Administrador para a representação de seus produtos/serviços.</li>
+                <li>As mídias são armazenadas em um **Google Drive dedicado** e de propriedade da aplicação.</li>
+                <li>Apenas o link de acesso seguro (URL) é registrado no banco de dados (Cloudflare D1), mantendo o arquivo de mídia separado do registro textual.</li>
+            </ul>
+        </div>
+
+        <!-- Seção 3: Utilização e Âmbito de Aplicação dos Dados -->
+        <div class="policy-section">
+            <h2 class="text-2xl font-bold text-slate-700 mb-6 flex items-center transition-colors duration-300">
+                <span class="mr-3">3.0</span> Utilização e Âmbito de Aplicação dos Dados
+            </h2>
+            <ul class="policy-list ml-4 text-slate-700 transition-colors duration-300">
+                <li>**Uso Exclusivo Operacional:** Os dados são utilizados **apenas** para permitir a gestão do catálogo digital pelo Administrador e, primariamente, para a **exibição pública dos itens na interface web (site)** do catálogo.</li>
+                
+                <li class="mt-4">
+                    **Serviços de Terceiros e Suas Políticas:** A operação do Bot e do Catálogo Virtual depende dos seguintes serviços essenciais de infraestrutura. O Administrador é responsável por revisar as políticas de privacidade de cada provedor:
+                    <ul class="policy-list mt-2 ml-4 text-sm text-gray-700 dark:text-gray-400">
+                        <li>**Cloudflare (Infraestrutura, Segurança e Bancos de Dados - KV e D1):** Utilizado para hospedagem da lógica do Bot, segurança de rede e armazenamento dos dados de configuração e catálogo. Consulte a Política de Privacidade do Cloudflare: 
+                            <a href="https://www.cloudflare.com/pt-br/privacypolicy/" target="_blank" class="underline hover:text-gray-900 dark:hover:text-gray-100">Política de Privacidade Cloudflare</a>.
+                        </li>
+                        <li>**Google Drive (Armazenamento de Mídia):** Utilizado exclusivamente para guardar as mídias (Imagens e GIFs) dos produtos, conforme Seção 2.0. Consulte a Política de Privacidade do Google: 
+                            <a href="https://policies.google.com/privacy?hl=pt-BR" target="_blank" class="underline hover:text-gray-900 dark:hover:text-gray-100">Política de Privacidade Google</a>.
+                        </li>
+                        <li>**Telegram API (Comunicação):** Interface de comunicação para a gestão e interação do Bot.</li>
+                    </ul>
+                </li>
+                
+                <li>**Processamento a Pedido:** O sistema processa as informações estritamente para executar as funções solicitadas pelo Administrador, visando a exposição e funcionamento do catálogo.</li>
+            </ul>
+        </div>
+
+        <!-- Seção 4: Segurança da Infraestrutura Crítica -->
+        <div class="policy-section bg-gray-50 border-l-4 border-gray-500 dark-highlight transition-colors duration-300">
+            <h2 class="text-2xl font-bold text-slate-700 mb-6 flex items-center transition-colors duration-300">
+                <span class="mr-3">4.0</span> Segurança da Infraestrutura Crítica e Segredos de Aplicação
+            </h2>
+            <p class="text-slate-700 mb-4 transition-colors duration-300">As credenciais críticas (Secrets) necessárias para a integração com serviços externos são isoladas do código e dos bancos de dados:</p>
+
+            <ul class="policy-list ml-4 text-sm text-slate-700 transition-colors duration-300">
+                <li>**Credenciais Alocadas:** GOOGLE\_CLIENT\_ID, GOOGLE\_CLIENT\_SECRET, GOOGLE\_REFRESH\_TOKEN, DRIVE\_FOLDER\_ID, BOT\_TOKEN, CHAT\_ID, URL\_ORIGEM\_AUTORIZADA, TOKEN\_PAGINA e TOKEN\_AUTENTICACAO.</li>
+                <li>**Mecanismo de Armazenamento:** Estes dados são mantidos como **Secrets** (variáveis de ambiente criptografadas) na infraestrutura da **Cloudflare**, assegurando que não sejam expostos e sejam utilizados unicamente para a comunicação de serviço para serviço.</li>
+            </ul>
+        </div>
+
+        <!-- Seção 5: Controle de Acesso e Responsabilidade do Administrador -->
+        <div class="policy-section">
+            <h2 class="text-2xl font-bold text-slate-700 mb-6 flex items-center transition-colors duration-300">
+                <span class="mr-3">5.0</span> Controle de Acesso e Responsabilidade do Administrador
+            </h2>
+            <ul class="policy-list ml-4 text-slate-700 transition-colors duration-300">
+                <li>**PIN de Acesso:** O PIN é protegido por hashing seguro PBKDF2.</li>
+                <li>**Gestão do PUK:** O **PUK (Chave de Emergência)** constitui a chave mestra para a redefinição de acesso. É de **inteira e exclusiva responsabilidade do Administrador** armazená-lo em local seguro, pois representa o **único mecanismo de recuperação** de acesso controlado pelo usuário. O sistema não pode reverter um PUK perdido.</li>
+            </ul>
+        </div>
+
+        <!-- Seção 6: Política de Retenção e Procedimentos de Exclusão -->
+        <div class="policy-section">
+            <h2 class="text-2xl font-bold text-slate-700 mb-6 flex items-center transition-colors duration-300">
+                <span class="mr-3">6.0</span> Política de Retenção e Procedimentos de Exclusão
+            </h2>
+            <ul class="policy-list ml-4 text-slate-700 transition-colors duration-300">
+                <li>**Retenção:** Os dados do Administrador e o conteúdo do catálogo são mantidos ativos e acessíveis **durante a vigência do serviço**.</li>
+                <li>**Exclusão:** Mediante a desativação ou exclusão do catálogo pelo Administrador, todos os dados de catálogo e as mídias associadas são removidos permanentemente. O Administrador detém o controle total sobre a exclusão.</li>
+            </ul>
+        </div>
+        
+        <!-- Rodapé -->
+        <footer class="text-center text-sm text-gray-500 dark:text-gray-500 mt-12 p-4 border-t border-gray-200 dark:border-[#333333] transition-colors duration-300">
+            <p class="mb-2">Última revisão documentada: Novembro de 2025</p>
+            <p class="mt-2">
+                <span class="font-bold">Atribuição de Crédito (CC BY-NC):</span> 
+                Código Fonte por 
+                <a href="https://victormacedo.dev.br" target="_blank" class="underline hover:text-slate-800 dark:hover:text-gray-300">victormacedo.dev.br</a> | 
+                <a href="https://github.com/z0374/templateCatalog01-CC-BY-NC/tree/develop/assets/js/bot" target="_blank" class="underline hover:text-slate-800 dark:hover:text-gray-300">Repositório GitHub</a>.
+            </p>
+            <p class="mt-2">
+                Licença: <a href="https://creativecommons.org/licenses/by-nc/4.0/deed.pt" target="_blank" class="underline hover:text-slate-800 dark:hover:text-gray-300 font-bold">Creative Commons Atribuição-NãoComercial (CC BY-NC)</a>.
+            </p>
+        </footer>
+
+    </div>
+
+    <script>
+        // Função para alternar o modo escuro
+        function toggleDarkMode() {
+            const html = document.documentElement;
+            const isDark = html.classList.toggle('dark');
+            
+            // Salva a preferência do usuário no localStorage
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+
+            // Atualiza o texto do botão
+            updateToggleButton(isDark);
+        }
+
+        // Função auxiliar para atualizar o texto do botão
+        function updateToggleButton(isDark) {
+            const button = document.getElementById('theme-toggle');
+            if (button) {
+                button.textContent = isDark ? '☀️ Modo Claro' : '🌙 Modo Noturno';
+            }
+        }
+
+        // Verifica a preferência salva ou do sistema ao carregar a página
+        window.onload = function() {
+            const html = document.documentElement;
+            const storedTheme = localStorage.getItem('theme');
+            let shouldBeDark = false;
+
+            if (storedTheme) {
+                shouldBeDark = storedTheme === 'dark';
+            } else {
+                // Se não houver preferência salva, verifica a preferência do sistema operacional
+                shouldBeDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            }
+
+            if (shouldBeDark) {
+                html.classList.add('dark');
+            }
+            
+            // Define o texto inicial do botão
+            updateToggleButton(shouldBeDark);
+        }
+    </script>
+</body>
+</html>
