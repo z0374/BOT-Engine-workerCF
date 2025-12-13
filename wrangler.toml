@@ -5,7 +5,7 @@ workers_dev = true
 compatibility_date = "2025-11-20"
 compatibility_flags = []
 
-main = "worker2.js"
+main = "worker.js"
 
 [observability]
 enabled = true
