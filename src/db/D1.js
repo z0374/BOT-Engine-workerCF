@@ -101,7 +101,7 @@ async function dataUpdate(content, tabela, chatId, env) {
               if (tableExists.results.length === 0) {  // Verifica se a tabela existe
                   return 0;
               }
-            const campo = Number.isInteger(Number(content[1])) ? 'id' : 'tipo';
+            const campo = Number.isInteger(Number(content[1])) ? 'id' : 'type';
             const identificadorVal = campo === 'id' ? Number(content[1]) : content[1];
 
             const data = content;
