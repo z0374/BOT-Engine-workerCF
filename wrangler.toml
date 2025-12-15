@@ -23,8 +23,6 @@ persist = true
 head_sampling_rate = 1
 
 [build]
-command = "true"  
-no_bundle = true
 upload_source_maps = false
 
 [[kv_namespaces]]
