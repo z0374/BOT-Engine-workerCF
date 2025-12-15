@@ -129,7 +129,7 @@ async function dataUpdate(content, tabela, chatId, env) {
             return result.meta.changes;
 
           } catch (error) {
-            await sendCallBackMessage("Erro ao fazer o update:\n" + error, chatId, env);
+            await sendCallBackMessage("Erro ao fazer o update:\n" + error.stack, chatId, env);
             return 0;
           }
 }
