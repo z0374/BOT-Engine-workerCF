@@ -1,7 +1,7 @@
 import { loadUserState, saveUserState } from "../db/session.js";
 import { sendMessage, sendCallBackMessage } from "../utils/message.js"; // funções de envio de mensagens e mídia
 import { normalize } from "../utils/formatters.js";
-import { templateCatalog01, comandTemplateCatalog01 } from "../../comands/catalog01/templateCatalog01.js";
+import { templateCatalog01, comandTemplateCatalog01 } from "../../../comands/catalog01/templateCatalog01.js";
 import { dataExist, dataSave, dataUpdate } from "../db/D1.js";
 
 async function handleRequest(request, env) {  
