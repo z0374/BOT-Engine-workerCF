@@ -108,9 +108,9 @@ async function dataUpdate(content, tabela, chatId, env) {
             const colunas = tabela[1].split(',').map(c => c.trim());
             const nomeTabela = tabela[0];
 
-            if (data.length !== colunas.length) {
+            /*if (data.length !== colunas.length) {
               throw new Error('Quantidade de colunas e valores não coincide.');
-            }
+            }*/
 
             const setParts = colunas.map(coluna => `${coluna} = ?`).join(', ');
             const query = `
