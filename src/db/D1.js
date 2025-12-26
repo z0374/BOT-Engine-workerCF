@@ -134,6 +134,43 @@ async function dataUpdate(content, tabela, chatId, env) {
   }
 }
 
+async function dataDelete(tabela, identificador, chatId, env) {
+  const _data = env.Data;
+  try {
+    const nomeTabela = tabela;
+
+    // 1. Verifica se a tabela existe
+    const tableExists = await _data.prepare(
+      `SELECT name FROM sqlite_master WHERE type='table' AND name=?;`
+    ).bind(nomeTabela).all();
+
+    if (tableExists.results.length === 0) {
+      return 0;
+    }
+
+    // 2. Define se a busca é por ID (número) ou TYPE (texto)
+    const campoFiltro = Number.isInteger(Number(identificador)) ? 'id' : 'type';
+    const valorFiltro = campoFiltro === 'id' ? Number(identificador) : identificador;
+
+    // 3. Monta e executa a query de DELETE
+    const query = `DELETE FROM ${nomeTabela} WHERE ${campoFiltro} = ?`;
+    const result = await _data.prepare(query).bind(valorFiltro).run();
+
+    // 4. Feedback de sucesso
+    if (result.meta.changes !== 0) {
+      await sendCallBackMessage('Registro removido com sucesso!', chatId, env);
+    } else {
+      await sendCallBackMessage('Nenhum registro encontrado para excluir.', chatId, env);
+    }
+
+    return result.meta.changes;
+
+  } catch (error) {
+    await sendCallBackMessage("Erro ao excluir dados:\n" + error.message, chatId, env);
+    return 0;
+  }
+}
+
 // Função assíncrona para verificar a existência de uma tabela ou de dados específicos.
 // Recebe o nome da tabela (table), os dados a serem buscados (data, opcional, padrão: objeto vazio), e o ambiente do worker (env).
 async function dataExist(table, data = {}, env, chatId) {
@@ -246,4 +283,4 @@ async function dataRead(table, data = {}, env) {
   }
 }
 
-export{ dataSave, dataUpdate, dataExist, dataRead }
+export{ dataSave, dataRead, dataUpdate, dataDelete, dataExist }
