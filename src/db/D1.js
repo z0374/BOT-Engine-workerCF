@@ -104,7 +104,7 @@ async function dataUpdate(content, tabela, chatId, env) {
             const campo = Number.isInteger(Number(content[1])) ? 'id' : 'type';
             const identificadorVal = campo === 'id' ? Number(content[1]) : content[1];
 
-            const data = content;
+            const data = content[0];
             const colunas = tabela[1].split(',').map(c => c.trim());
             const nomeTabela = tabela[0];
 
