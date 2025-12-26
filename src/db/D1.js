@@ -96,42 +96,42 @@ async function dataSave(content, tabela, env, chatId) {
 async function dataUpdate(content, tabela, chatId, env) {
   const _data = env.Data;
   try {
-            const tableExists = await _data.prepare(`SELECT name FROM sqlite_master WHERE type='table' AND name=?;`).bind(tabela[0]).all();
-              // Se a tabela não existir, cria a tabela
-              if (tableExists.results.length === 0) {  // Verifica se a tabela existe
-                  return 0;
-              }
-            const campo = Number.isInteger(Number(content[1])) ? 'id' : 'type';
-            const identificadorVal = campo === 'id' ? Number(content[1]) : content[1];
+    const nomeTabela = tabela[0];
+    const colunasRaw = tabela[1];
+    
+    // 1. Verifica existência da tabela
+    const tableExists = await _data.prepare(`SELECT name FROM sqlite_master WHERE type='table' AND name=?;`).bind(nomeTabela).all();
+    if (tableExists.results.length === 0) return 0;
 
-            const data = content[0];
-            const colunas = tabela[1].split(',').map(c => c.trim());
-            const nomeTabela = tabela[0];
+    // 2. Separa as colunas e os valores destinados ao SET
+    const colunas = colunasRaw.split(',').map(c => c.trim());
+    
+    // Pegamos apenas os valores que correspondem às colunas (do início do array)
+    const valoresParaSet = content.slice(0, colunas.length);
+    
+    // 3. Define o critério do WHERE (sempre o último elemento do content)
+    const valorFiltro = content[content.length - 1];
+    const campoFiltro = Number.isInteger(Number(valorFiltro)) ? 'id' : 'type';
+    const identificadorVal = campoFiltro === 'id' ? Number(valorFiltro) : valorFiltro;
 
-            /*if (data.length !== colunas.length) {
-              throw new Error('Quantidade de colunas e valores não coincide.');
-            }*/
+    // 4. Monta a Query
+    const setParts = colunas.map(coluna => `${coluna} = ?`).join(', ');
+    const query = `UPDATE ${nomeTabela} SET ${setParts} WHERE ${campoFiltro} = ?`;
 
-            const setParts = colunas.map(coluna => `${coluna} = ?`).join(', ');
-            const query = `
-              UPDATE ${nomeTabela}
-              SET ${setParts}
-              WHERE ${campo} = ?
-            `;
+    // 5. Executa o Bind unindo os valores do SET + o valor do WHERE
+    const stmt = _data.prepare(query).bind(...valoresParaSet, identificadorVal);
+    const result = await stmt.run();
 
-            const stmt = _data.prepare(query).bind(...data, identificadorVal);
-            const result = await stmt.run();
+    if (result.meta.changes !== 0) {
+      await sendCallBackMessage('Dados atualizados com sucesso!', chatId, env);
+    }
 
-            if (result.meta.changes !== 0) {
-              await sendCallBackMessage('Dados atualizados com sucesso!', chatId, env);
-            }
+    return result.meta.changes;
 
-            return result.meta.changes;
-
-          } catch (error) {
-            await sendCallBackMessage("Erro ao fazer o update:\n" + error.stack, chatId, env);
-            return 0;
-          }
+  } catch (error) {
+    await sendCallBackMessage("Erro ao fazer o update:\n" + error.message, chatId, env);
+    return 0;
+  }
 }
 
 // Função assíncrona para verificar a existência de uma tabela ou de dados específicos.
