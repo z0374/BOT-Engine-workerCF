@@ -34,7 +34,7 @@ async function handleJson(request, env) {
 
     if (tipo) {
       conditions.push("type = ?");
-      binds.push(type);
+      binds.push(tipo);
     }
 
     if (id) {
