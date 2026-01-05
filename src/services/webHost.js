@@ -28,7 +28,7 @@ async function handleJson(request, env) {
   }
 
   try {
-    let query = `SELECT nome, tipo FROM ${tabela}`;
+    let query = `SELECT name, tipo FROM ${tabela}`;
     const conditions = [];
     const binds = [];
 
@@ -59,7 +59,7 @@ async function handleJson(request, env) {
     if (tipo === "img" || (rows[0]?.tipo === "img" && !tipo)) {
       try {
         const row = rows[0]; // Apenas o primeiro arquivo
-        const file = await downloadGdrive(row.nome, env); // Agora downloadGdrive está definido
+        const file = await downloadGdrive(row.name, env); // Agora downloadGdrive está definido
 
         return new Response(file.buffer, {
           status: 200,
@@ -75,7 +75,7 @@ async function handleJson(request, env) {
     }
 
     // 📝 Se não for imagem, retorna lista em texto plano
-    const nomes = rows.map(r => r.nome).join("\[|]");
+    const nomes = rows.map(r => r.name).join("\[|]");
     return new Response(nomes, {
       headers: { "Content-Type": "text/plain; charset=utf-8" }
     });
