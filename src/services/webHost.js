@@ -56,7 +56,7 @@ async function handleJson(request, env) {
     }
 
     // 🖼 Se for imagem, retorna arquivo binário real
-    if (tipo === "img" || (rows[0]?.type === "img" && !type)) {
+    if (tipo === "img" || (rows[0]?.type === "img" && !tipo)) {
       try {
         const row = rows[0]; // Apenas o primeiro arquivo
         const file = await downloadGdrive(row.data, env); // Agora downloadGdrive está definido
@@ -81,7 +81,7 @@ async function handleJson(request, env) {
     });
 
   } catch (error) {
-    return new Response("Erro ao consultar a base de dados: " + error.message, {
+    return new Response("Erro ao consultar a base de dados: " + error.stack, {
       status: 500,
       headers: { "Content-Type": "text/plain" }
     });
