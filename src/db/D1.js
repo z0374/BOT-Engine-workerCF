@@ -152,13 +152,39 @@ async function dataDelete(tabela, identificador, chatId, env) {
     const campoFiltro = Number.isInteger(Number(identificador)) ? 'id' : 'type';
     const valorFiltro = campoFiltro === 'id' ? Number(identificador) : identificador;
 
-    // 3. Monta e executa a query de DELETE
+    // =================================================================================
+    // NOVO BLOCO: Verificar se existem imagens para excluir no GDrive ANTES do DELETE
+    // =================================================================================
+    
+    // Busca os registros que serão afetados pelo delete
+    const querySelect = `SELECT * FROM ${nomeTabela} WHERE ${campoFiltro} = ?`;
+    const registrosParaDeletar = await _data.prepare(querySelect).bind(valorFiltro).all();
+
+    // Itera sobre os resultados (caso seja uma exclusão por 'type', pode haver vários)
+    if (registrosParaDeletar.results && registrosParaDeletar.results.length > 0) {
+        for (const registro of registrosParaDeletar.results) {
+            // Verifica se o tipo é imagem
+            if (registro.type === 'img') {
+                const fileId = registro.data.trim();
+                
+                if (fileId) {
+                    await sendCallBackMessage(`🗑️ Excluindo imagem do GDrive...`, chatId, env);
+                    // Chama a função de exclusão do GDrive
+                    await deleteFileGdrive(fileId, env, chatId);
+                }
+            }
+        }
+    }
+    // =================================================================================
+
+    // 3. Monta e executa a query de DELETE (Agora é seguro apagar do banco)
     const query = `DELETE FROM ${nomeTabela} WHERE ${campoFiltro} = ?`;
     const result = await _data.prepare(query).bind(valorFiltro).run();
 
     // 4. Feedback de sucesso
     if (result.meta.changes !== 0) {
-      await sendCallBackMessage('Registro removido com sucesso!', chatId, env);
+      // await sendCallBackMessage('Registro removido com sucesso!', chatId, env);
+      // Comentei a msg acima pois o templateCatalog01 já envia feedbacks, mas pode descomentar se quiser.
     } else {
       await sendCallBackMessage('Nenhum registro encontrado para excluir.', chatId, env);
     }

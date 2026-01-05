@@ -180,5 +180,45 @@ async function downloadGdrive(fileId, env, chatId) {
         }
     }
 }
+
+    // Função para deletar arquivo do Google Drive
+async function deleteFileGdrive(fileId, env, chatId) {
+    // 1. Obtém o token de acesso
+    const accessToken = await getAccessToken(env, chatId);
+
+    if (!accessToken) {
+        // O erro de token já é reportado dentro de getAccessToken, 
+        // mas é bom garantir que a execução pare aqui.
+        return false;
+    }
+
+    try {
+        // 2. Faz a requisição DELETE para a API v3 do Google Drive
+        const response = await fetch(`https://www.googleapis.com/drive/v3/files/${fileId}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`
+            }
+        });
+
+        // 3. Verifica o retorno
+        // O Google Drive retorna status 204 (No Content) quando a exclusão é bem-sucedida.
+        if (response.status === 204) {
+            return true;
+        } else {
+            // Se falhar, tenta ler o motivo do erro
+            const errorText = await response.text();
+            throw new Error(`Falha na API (Status ${response.status}): ${errorText}`);
+        }
+
+    } catch (error) {
+        // 4. Reporta o erro ao chat
+        const errorMsg = `Erro ao excluir arquivo do GDrive (ID: ${fileId}): ${error.message}`;
+        await sendCallBackMessage(errorMsg, chatId, env);
+        console.error(errorMsg);
+        return false;
+    }
+}
+
 // Exporta as funções de manipulação do Google Drive para serem usadas por outros módulos.
-export { downloadGdrive, uploadGdrive };
+export { downloadGdrive, uploadGdrive, deleteFileGdrive };
