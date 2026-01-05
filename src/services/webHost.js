@@ -28,13 +28,13 @@ async function handleJson(request, env) {
   }
 
   try {
-    let query = `SELECT data, tipo FROM ${tabela}`;
+    let query = `SELECT data, type FROM ${tabela}`;
     const conditions = [];
     const binds = [];
 
-    if (tipo) {
-      conditions.push("tipo = ?");
-      binds.push(tipo);
+    if (type) {
+      conditions.push("type = ?");
+      binds.push(type);
     }
 
     if (id) {
@@ -56,7 +56,7 @@ async function handleJson(request, env) {
     }
 
     // 🖼 Se for imagem, retorna arquivo binário real
-    if (tipo === "img" || (rows[0]?.tipo === "img" && !tipo)) {
+    if (type === "img" || (rows[0]?.type === "img" && !type)) {
       try {
         const row = rows[0]; // Apenas o primeiro arquivo
         const file = await downloadGdrive(row.data, env); // Agora downloadGdrive está definido
