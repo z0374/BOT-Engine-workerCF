@@ -32,7 +32,7 @@ async function handleJson(request, env) {
     const conditions = [];
     const binds = [];
 
-    if (type) {
+    if (tipo) {
       conditions.push("type = ?");
       binds.push(type);
     }
@@ -56,7 +56,7 @@ async function handleJson(request, env) {
     }
 
     // 🖼 Se for imagem, retorna arquivo binário real
-    if (type === "img" || (rows[0]?.type === "img" && !type)) {
+    if (tipo === "img" || (rows[0]?.type === "img" && !type)) {
       try {
         const row = rows[0]; // Apenas o primeiro arquivo
         const file = await downloadGdrive(row.data, env); // Agora downloadGdrive está definido
