@@ -56,7 +56,9 @@ async function handleRequest(request, env) {
               titulo: String(''),
               texto: String(''),
               select: [],
-              procesCont:0 };
+              page: Number(2),
+              procesCont:0 
+            };
         }
 
         if(normalize(messageText) == normalize('encerrar')){

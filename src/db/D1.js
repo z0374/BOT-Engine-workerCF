@@ -282,10 +282,27 @@ async function dataRead(table, data = {}, env) {
       return result.results || [];
     }
 
-    // 4 — Montar cláusula WHERE usando .bind() (seguro)
-    const keys = Object.keys(data);
-    const whereClause = keys.map(key => `${key} = ?`).join(" AND ");
-    const values = keys.map(key => data[key]);
+    let whereClause = "";
+    let orderClause = "ORDER BY id ASC";
+    let values = [];
+
+    if ( Array.isArray(data?.interval) && data.interval.length === 2 ) {
+      whereClause = "id BETWEEN ? AND ?";
+      values = [
+        Number(data.interval[0]),
+        Number(data.interval[1])
+      ];
+    } else if (data && typeof data === "object") {
+      const keys = Object.keys(data);
+
+      if (keys.length) {
+        whereClause = keys
+          .map(key => `${key} = ?`)
+          .join(" AND ");
+
+        values = keys.map(key => data[key]);
+      }
+    }
 
     // 5 — Montar a query final
     const query = `SELECT * FROM ${table} WHERE ${whereClause}`;
