@@ -56,7 +56,7 @@ async function handleRequest(request, env) {
               titulo: String(''),
               texto: String(''),
               select: [],
-              page: Number(2),
+              page: 1,
               procesCont:0 
             };
         }

@@ -259,10 +259,9 @@ async function dataRead(table, data = {}, env) {
   try {
     // 1 — Validar nome da tabela
     if (!table || typeof table !== "string") {
-      
-      console.error(`"Nome da tabela (${table}) inválido.`);
+      console.error(`Nome da tabela (${table}) inválido.`);
       return [];
-      };
+    }
 
     // 2 — Verificar se a tabela existe no D1
     const tableCheck = await env.Data
@@ -271,59 +270,134 @@ async function dataRead(table, data = {}, env) {
       .first();
 
     if (!tableCheck) {
-      console.error(`A Tabela ${table} não existe.`);
+      console.error(`A tabela ${table} não existe.`);
       return [];
     }
 
-    // 3 — Se não houver filtros, retorna todos os registros
-    if (!data || Object.keys(data).length === 0) {
-      const result = await env.Data.prepare(`SELECT * FROM ${table}`).all();
-
-      return result.results || [];
-    }
-
     let whereClause = "";
-    let orderClause = "ORDER BY id ASC";
     let values = [];
 
-    if ( Array.isArray(data?.interval) && data.interval.length === 2 ) {
+    // 3 — Intervalo de IDs
+    if (
+      Array.isArray(data?.interval) &&
+      data.interval.length === 2
+    ) {
       whereClause = "id BETWEEN ? AND ?";
       values = [
         Number(data.interval[0]),
         Number(data.interval[1])
       ];
-    } else if (data && typeof data === "object") {
+    }
+    // 4 — Filtros normais (type, id, etc)
+    else if (data && typeof data === "object" && Object.keys(data).length) {
       const keys = Object.keys(data);
 
-      if (keys.length) {
-        whereClause = keys
-          .map(key => `${key} = ?`)
-          .join(" AND ");
+      whereClause = keys
+        .map(key => `${key} = ?`)
+        .join(" AND ");
 
-        values = keys.map(key => data[key]);
-      }
+      values = keys.map(key => data[key]);
     }
 
-    // 5 — Montar a query final
-    const query = `SELECT * FROM ${table} WHERE ${whereClause}`;
+    // 5 — Montar query (se whereClause vazio → traz tudo)
+    const query = `
+      SELECT *, COUNT(*) OVER() AS total FROM ${table} WHERE ${whereClause ? "WHERE " + whereClause : ""} ORDER BY id ASC `;
 
-    const statement = env.Data.prepare(query).bind(...values);
-    const result = await statement.all();
+    const result = await env.Data
+      .prepare(query)
+      .bind(...values)
+      .all();
 
-    // Nenhum resultado
-    if (!result || result.results.length === 0) {
-      console.error(`Dados inexistentes na tabela ${table}.`);
+    if (!result || !result.results.length) {
       return [];
     }
 
-    if(result.results.length < 2) return result.results[0];
+    // Se tiver apenas um registro, retorna o objeto direto
+    if (result.results.length === 1) {
+      return result.results[0];
+    }
 
-    // 6 — Retorno com sucesso e dados encontrados
     return result.results;
 
   } catch (err) {
-    return `Erro ao consultar D1: ${err}`;
+    console.error("Erro ao consultar D1:", err);
+    return [];
   }
 }
 
-export{ dataSave, dataRead, dataUpdate, dataDelete, dataExist }
+
+/**
+ * Conta registros de uma tabela do Cloudflare D1, com validações e segurança.
+ *
+ * @param {string} table - Nome da tabela
+ * @param {object} data - Filtros (par chave/valor) ou { interval: [begin, end] }
+ * @param {object} env - Ambiente do Worker (env.Data)
+ *
+ * @returns {number} total de registros
+ */
+async function dataCount(table, data = {}, env) {
+  try {
+    // 1 — Validar nome da tabela
+    if (!table || typeof table !== "string") {
+      console.error(`Nome da tabela (${table}) inválido.`);
+      return 0;
+    }
+
+    // 2 — Verificar se a tabela existe no D1
+    const tableCheck = await env.Data
+      .prepare(`SELECT name FROM sqlite_master WHERE type='table' AND name = ?`)
+      .bind(table)
+      .first();
+
+    if (!tableCheck) {
+      console.error(`A tabela ${table} não existe.`);
+      return 0;
+    }
+
+    let whereClause = "";
+    let values = [];
+
+    // 3 — Intervalo de IDs
+    if (
+      Array.isArray(data?.interval) &&
+      data.interval.length === 2
+    ) {
+      whereClause = "id BETWEEN ? AND ?";
+      values = [
+        Number(data.interval[0]),
+        Number(data.interval[1])
+      ];
+    }
+    // 4 — Filtros normais
+    else if (data && typeof data === "object" && Object.keys(data).length) {
+      const keys = Object.keys(data);
+
+      whereClause = keys
+        .map(key => `${key} = ?`)
+        .join(" AND ");
+
+      values = keys.map(key => data[key]);
+    }
+
+    // 5 — Montar query
+    const query = `
+      SELECT COUNT(*) AS total
+      FROM ${table}
+      ${whereClause ? "WHERE " + whereClause : ""}
+    `;
+
+    const result = await env.Data
+      .prepare(query)
+      .bind(...values)
+      .first();
+
+    return result?.total ?? 0;
+
+  } catch (err) {
+    console.error("Erro ao contar dados no D1:", err);
+    return 0;
+  }
+}
+
+
+export{ dataSave, dataRead, dataUpdate, dataDelete, dataExist, dataCount }
