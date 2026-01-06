@@ -301,7 +301,7 @@ async function dataRead(table, data = {}, env) {
 
     // 5 — Montar query (se whereClause vazio → traz tudo)
     const query = `
-      SELECT *, COUNT(*) OVER() AS total FROM ${table} WHERE ${whereClause ? "WHERE " + whereClause : ""} ORDER BY id ASC `;
+      SELECT *, COUNT(*) OVER() AS total FROM ${table} ${whereClause ? "WHERE " + whereClause : ""} ORDER BY id ASC`;
 
     const result = await env.Data
       .prepare(query)
