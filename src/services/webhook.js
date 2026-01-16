@@ -1,13 +1,14 @@
 import { loadUserState, saveUserState } from "../db/session.js";
 import { sendMessage, sendCallBackMessage } from "../utils/message.js"; // funções de envio de mensagens e mídia
 import { normalize } from "../utils/formatters.js";
-import { templateCatalog01, comandTemplateCatalog01 } from "../../commands/templateCatalog01.js";
 import { dataExist, dataSave, dataUpdate } from "../db/D1.js";
+import { comands } from "./comands.js";
+import { commands_manifest } from "../../commands.manifest.js";
 
 async function handleRequest(request, env) {  
     // Aguarda 1 segundo antes de começar.
     await new Promise(resolve => setTimeout(resolve, 1000));
-    
+
     const url = new URL(request.url)|| null;
     let update;
     
@@ -67,16 +68,15 @@ async function handleRequest(request, env) {
 
         }
         // 8. DELEGAÇÃO DO FLUXO DE ESTADOS (Para estados que não são comandos de nível superior)
-        switch (normalize(userState.proces)) {
-            
-            // userState é passado por referência; a função externa o modifica e salva.
-            case normalize(comandTemplateCatalog01):
-                return await templateCatalog01(userState, messageText, userId, chatId, userName, update, env);
-                break;
+        if(userState.proces){
+            const result = await comands(userState.proces, userState, userId, chatId, userName, update, env);
+                if(!result){
+                    await sendMessage('Comando não reconhecido. Use /comandos para começar.', chatId, env); 
+                return new Response('Nenhum processo iniciado');
+                }
+                return new Response("OK", {status:200})
+              }
         
-            default:
-                break;
-        }
              
         
 
@@ -87,42 +87,28 @@ async function handleRequest(request, env) {
             case normalize('comandos'):
                 userState = null;
                 await saveUserState(env, userId, userState);
-                const list = `
-                /comandos - Lista de comandos do bot.\n
-                /ajuda - Ajuda do bot.\n
-                /index - Abre a edição do index.\n
-                /${comandTemplateCatalog01} - Abre as configurações do Catálogo virtual.\n
-                /portal - Adiciona um novo link ao portal.
-                `;
+                const secComands = commands_manifest.map(v => `/${v.name}`);
+                const list = [
+                "/comandos - Lista de comandos do bot.",
+                "/ajuda - Ajuda do bot.",
+                "/encerrar - Encerra precocemente qualquer tarefa do bot.",
+                ...secComands
+                ].join('\n');
                 await sendMessage(list, chatId, env);
-                return new Response('Comandos enviados!',{status:200});
+                return new Response('Lista de comandos enviada!',{status:200});
 
-            case normalize('portal'):
-                userState.procesCont = 0;
-                userState.proces = messageText.toLowerCase();
-                userState.state = 'waiting_comand_portal';
-                await saveUserState(env, userId, userState);
-                await sendMessage(`Olá ${userName}! Como posso ajudar?\n /Adicionar_link - /Editar_link\n /Remover_link - /Deletar_link\n\n /ver_meu_portal --- /encerrar`, chatId, env);
-                break;
-
-            case normalize('index'):
-                userState.procesCont=0;
-                userState.proces = messageText.toLowerCase();
-                userState.state = 'waiting_section';
-                await saveUserState(env, userId, userState);
-                await sendMessage(`Olá ${userName}! Como posso ajudar?\n /Cabecalho - /Apresentacao |\n/Imagens - /Horarios |\n/usuarios - /configuracao |\n\n/ver_dados_da_pagina - /encerrar`, chatId, env);
-                return new Response('Aguardando comando',{ status: 200 });
-
-            case normalize(comandTemplateCatalog01):
-                return await templateCatalog01(userState, messageText, userId, chatId, userName, update, env);
+            case normalize('ajuda'):
+                return await sendMessage("Ajuda", chatId, env);;
                 break;
 
             default:// Se não for comando e não tiver estado ativo (caiu do if), envia mensagem de erro.
-                await sendMessage('Comando não reconhecido. Use /comandos para começar.', chatId, env); 
+                const result = await comands(messageText, userState, userId, chatId, userName, update, env);
+                if(!result){
+                    await sendMessage('Comando não reconhecido. Use /comandos para começar.', chatId, env); 
                 return new Response('Nenhum processo iniciado');
+                }
+                return new Response("OK", {status:200})
               }
-        
-        
 
     } catch (error) {
         // 9. TRATAMENTO DE ERRO GLOBAL

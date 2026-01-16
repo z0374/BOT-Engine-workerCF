@@ -1,24 +1,30 @@
-templatecatalog01-cc-by-nc/
-|   |   |   |
-|   |   |   ├── assets/
-|   |   |   |   |   └── pages/
-|   |   |   |   |       ├── index.html
-│   │   │   │   │       └── privacidade.html
-│   │   │   ├── src/
-│   │   │   │   ├── db/
-│   │   │   │   │   ├── D1.js
-│   │   │   │   │   └── session.js
-│   │   │   │   ├── services/
-│   │   │   │   │   ├── cookies.js
-│   │   │   │   │   ├── gDrive.js
-│   │   │   │   │   ├── user.js
-│   │   │   │   │   └── webHost.js
-│   │   │   │   └── utils/
-│   │   │   │       ├── arquives.js
-│   │   │   │       ├── cryptography.js
-│   │   │   │       ├── formatters.js
-│   │   │   │       ├── message.js
-│   │   │   │       └── recFile.js
-│   │   │   ├── worker.js (Versão Monolítica Antiga)
-│   │   │   ├── worker2.js (Ponto de Entrada Principal)
-│   │   │   └── wrangler.toml
+BOT/
+    ├──comands/
+    |   |   |   ├──linksfera/
+    |   |   |   └──templatecatalog01/
+    └──engine/
+    |   |   |   |
+    |   |   |   ├── assets/
+    |   |   |   |   |   └── pages/
+    |   |   |   |   |       ├── index.html
+    │   │   │   │   │       └── privacidade.html
+    │   │   │   ├── src/
+    │   │   │   │   ├── db/
+    │   │   │   │   │   ├── D1.js
+    │   │   │   │   │   └── session.js
+    │   │   │   │   ├── services/
+    |   |   |   |   |   ├──comands.js
+    │   │   │   │   │   ├── cookies.js
+    │   │   │   │   │   ├── gDrive.js
+    │   │   │   │   │   ├── user.js
+    │   │   │   │   │   └── webHost.js
+    │   │   │   │   └── utils/
+    │   │   │   │       ├── arquives.js
+    │   │   │   │       ├── cryptography.js
+    │   │   │   │       ├── formatters.js
+    │   │   │   │       ├── message.js
+    │   │   │   │       └── recFile.js
+    │   │   │   ├── commands.manifest.js.js
+    │   │   │   ├── GLOBAL_DIR.js
+    │   │   │   ├── worker.js (Ponto de Entrada Principal)
+    │   │   │   └── wrangler.toml

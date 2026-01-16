@@ -1,0 +1,1 @@
+const currentDir = new URL('.', import.meta.url);
