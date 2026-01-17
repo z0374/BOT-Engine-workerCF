@@ -3,10 +3,10 @@ import { sendMessage } from '../utils/message.js';
 
 // commands.registry.js
 
-import { linksfera } from './comands/linksfera/linksfera.js';
-import { templateCatalog01 } from './comands/templateCatalog01/templateCatalog01.js';
+import { linksfera } from '../../../comands/linksfera/linksfera.js';
+import { templateCatalog01 } from '../../../comands/templateCatalog01/templateCatalog01.js';
 
-export const commandRegistry = [
+const commands_manifest = [
   {
     name: 'linksfera',
     handler: linksfera
@@ -21,7 +21,7 @@ async function comands(messageText, userState, userId, chatId, userName, update,
   const COMMAND_TIMEOUT = 5000;
   const normalizedMessage = normalize(messageText);
 
-  const cmd = commandRegistry.find(
+  const cmd = commands_manifest.find(
     c => normalize(c.name) === normalizedMessage
   );
 
@@ -60,4 +60,4 @@ async function comands(messageText, userState, userId, chatId, userName, update,
   }
 }
 
-export { comands };
+export { comands, commands_manifest };
