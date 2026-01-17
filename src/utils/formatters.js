@@ -42,13 +42,22 @@ function BRL(valor) {
  * @returns {Promise<string>} A string normalizada.
  */
 function normalize(str) {
-  console.log(str);
+  if (typeof str !== "string") return "";
+
   return str
     .toLowerCase()
     .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "") // Remove acentos (diacríticos)
-    .replace(/\s+/g, "_") // Substitui espaços por "_"
-    .replace(/\//g, ""); // Remove barras
+    .replace(/[\u0300-\u036f]/g, "") // Remove acentos
+    .replace(/\s+/g, "_")           // Substitui espaços por "_"
+    .replace(/\//g, "");            // Remove barras
 }
 
-export{brMap, BRL, normalize}
+
+function escapeHTML(text) {
+  return String(text)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+export{brMap, BRL, normalize, escapeHTML}

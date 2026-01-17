@@ -68,7 +68,7 @@ async function handleRequest(request, env) {
         }
         // 8. DELEGAÇÃO DO FLUXO DE ESTADOS (Para estados que não são comandos de nível superior)
         if(userState.proces){
-            const result = await comand(messageText, userState, userId, chatId, userName, update, env);
+            const result = await comand(userState.proces, userState, userId, chatId, userName, update, env);
                 if(!result){
                     await sendMessage('Comando não reconhecido. Use /comandos para começar.', chatId, env); 
                 return new Response('Nenhum processo iniciado');
@@ -104,22 +104,17 @@ async function handleRequest(request, env) {
                 const result = await comand(messageText, userState, userId, chatId, userName, update, env);
                 if(!result){
                     await sendMessage('Comando não reconhecido. Use /comandos para começar.', chatId, env); 
-                return new Response('Nenhum processo iniciado');
+                return new Response('Nenhum processo iniciado',{status:200});
                 }
                 return new Response("OK", {status:200})
               }
 
     } catch (error) {
         // 9. TRATAMENTO DE ERRO GLOBAL
-        const fallbackChatId = update.message?.chat?.id || null;
-        if (fallbackChatId) {
-            await sendCallBackMessage(`Erro na requisição WEBHOOK: (webhook.js) ${error.stack}`, fallbackChatId, env);
-        }
+            await sendCallBackMessage(`Erro na requisição WEBHOOK: (webhook.js) ${error.stack}`, chat, env);
+        
         return new Response(`Erro: ${error.message}`, {status:200});
     }
-    
-    // Fallback: Se o comando (ex: /portal) não retornar uma resposta explícita, retorna OK.
-    return new Response('OK');
 }
 
 async function yesOrNo(content, tabela, userId, chatId, userState, messageText, env) { 

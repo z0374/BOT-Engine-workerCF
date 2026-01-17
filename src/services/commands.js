@@ -16,12 +16,10 @@ const commands_manifest = [
 
 async function comand(messageText, userState, userId, chatId, userName, update, env) {
   const COMMAND_TIMEOUT = 5000;
-  const normalizedMessage = normalize(messageText);
-
   const cmd = commands_manifest.find(
     c =>
-      normalize(c.name) === normalizedMessage ||
-      normalize(c.name) === normalize(userState.process)
+      normalize(c.name) === normalize(messageText) ||
+      normalize(c.name) === normalize(userState.proces)
   );
 
   if (!cmd) {
