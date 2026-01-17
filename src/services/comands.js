@@ -8,7 +8,7 @@ const moduleCache = {};
 async function comands(messageText, userState, userId, chatId, userName, update, request, env) {
 // Timeout padrão para execução do comando (em ms)
 const COMMAND_TIMEOUT = 5000;
-const ENGINE_GLOBAL_DIR = "../../";
+const ENGINE_GLOBAL_DIR = "../../../";
   const normalizedMessage = normalize(messageText);
 
   // procura o comando correspondente no manifesto
