@@ -19,7 +19,9 @@ async function comand(messageText, userState, userId, chatId, userName, update, 
   const normalizedMessage = normalize(messageText);
 
   const cmd = commands_manifest.find(
-    c => normalize(c.name) === normalizedMessage
+    c =>
+      normalize(c.name) === normalizedMessage ||
+      normalize(c.name) === normalize(userState.process)
   );
 
   if (!cmd) {
