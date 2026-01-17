@@ -1,5 +1,4 @@
 import { commands_manifest } from '../../commands.manifest.js';
-import { getEngineGlobalDir } from '../../GLOBAL_DIR';
 import { normalize } from '../utils/formatters';
 import { sendMessage } from '../utils/message.js';
 
@@ -9,7 +8,7 @@ const moduleCache = {};
 async function comands(messageText, userState, userId, chatId, userName, update, request, env) {
 // Timeout padrão para execução do comando (em ms)
 const COMMAND_TIMEOUT = 5000;
-const ENGINE_GLOBAL_DIR = getEngineGlobalDir(request);
+const ENGINE_GLOBAL_DIR = "../../";
   const normalizedMessage = normalize(messageText);
 
   // procura o comando correspondente no manifesto
