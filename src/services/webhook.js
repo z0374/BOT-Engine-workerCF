@@ -68,7 +68,7 @@ async function handleRequest(request, env) {
         }
         // 8. DELEGAÇÃO DO FLUXO DE ESTADOS (Para estados que não são comandos de nível superior)
         if(userState.proces){
-            const result = await comand(userState.proces, userState, userId, chatId, userName, update, env);
+            const result = await comand(messageText, userState, userId, chatId, userName, update, env);
                 if(!result){
                     await sendMessage('Comando não reconhecido. Use /comandos para começar.', chatId, env); 
                 return new Response('Nenhum processo iniciado');
