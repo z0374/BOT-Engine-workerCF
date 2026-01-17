@@ -1,7 +1,7 @@
 export const commands_manifest = [
   {
     name: 'linksfera',
-    path: 'comands/lisksfera/linksfera.js',
+    path: 'comands/linksfera/linksfera.js',
     handlerExport: 'linksfera'
   },
   {
