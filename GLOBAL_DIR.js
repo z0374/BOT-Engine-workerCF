@@ -1,3 +1,4 @@
-const ENGINE_GLOBAL_DIR = new URL('.', import.meta.url);
-
-export {ENGINE_GLOBAL_DIR}
+function getEngineGlobalDir(request) {
+  return new URL("/", request.url);
+}
+export {getEngineGlobalDir}
