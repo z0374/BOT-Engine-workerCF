@@ -155,7 +155,8 @@ async function yesOrNo(content, tabela, userId, chatId, userState, messageText, 
             // Reinicia o fluxo: volta para o estado de seção inicial.
             const stateParts = userState.state.split('_');
             // Reconstroi o estado da seção (ex: waiting_confirm_configuracao -> waiting_section_configuracao).
-            userState.state = 'waiting_section_' + stateParts[stateParts.length - 1]; 
+            userState.state = 'waiting_section_' + stateParts[stateParts.length - 1];
+            await saveUserState(env, userId, userState);
             userState.select = [];
             await sendMessage('Deseja /encerrar ? ou /reiniciar ?', chatId, env);
             break;
