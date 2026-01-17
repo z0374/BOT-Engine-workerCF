@@ -1,12 +1,12 @@
 export const commands_manifest = [
   {
     name: 'linksfera',
-    path: 'commands/linksfera/linksfera.js',
+    path: 'comands/lisksfera/linksfera.js',
     handlerExport: 'linksfera'
   },
   {
     name: 'catalogo',
-    path: 'commands/templateCatalog01/templateCatalog01.js',
+    path: 'comands/templateCatalog01/templateCatalog01.js',
     handlerExport: 'templateCatalog01'
   }
 ];
