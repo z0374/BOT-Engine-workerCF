@@ -29,7 +29,7 @@ const ENGINE_GLOBAL_DIR = "../../../";
     if (moduleCache[cmd.name]) {
       mod = moduleCache[cmd.name];
     } else {
-      const modulePath = new URL(cmd.path, ENGINE_GLOBAL_DIR).href;
+      const modulePath = ENGINE_GLOBAL_DIR + cmd.path;
       mod = await import(modulePath);
       moduleCache[cmd.name] = mod;
     }
