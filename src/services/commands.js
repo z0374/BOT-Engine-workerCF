@@ -1,23 +1,20 @@
 import { normalize } from '../utils/formatters.js';
 import { sendMessage } from '../utils/message.js';
 
-// commands.registry.js
-
-import { linksfera } from '../../../comands/linksfera/linksfera.js';
-import { templateCatalog01 } from '../../../comands/templateCatalog01/templateCatalog01.js';
+import * as COMMANDS from '../../commands.index.js';
 
 const commands_manifest = [
   {
     name: 'linksfera',
-    handler: linksfera
+    handler: COMMANDS.linksfera
   },
   {
     name: 'catalogo',
-    handler: templateCatalog01
+    handler: COMMANDS.templateCatalog01
   }
 ];
 
-async function comands(messageText, userState, userId, chatId, userName, update, env) {
+async function comand(messageText, userState, userId, chatId, userName, update, env) {
   const COMMAND_TIMEOUT = 5000;
   const normalizedMessage = normalize(messageText);
 
@@ -41,7 +38,9 @@ async function comands(messageText, userState, userId, chatId, userName, update,
       handler(userState, messageText, userId, chatId, userName, update, env),
       new Promise((_, reject) =>
         setTimeout(
-          () => reject(new Error(`Tempo limite de execução do comando "${cmd.name}" excedido.`)),
+          () => reject(
+            new Error(`Tempo limite de execução do comando "${cmd.name}" excedido.`)
+          ),
           COMMAND_TIMEOUT
         )
       )
@@ -60,4 +59,4 @@ async function comands(messageText, userState, userId, chatId, userName, update,
   }
 }
 
-export { comands, commands_manifest };
+export { comand, commands_manifest };
